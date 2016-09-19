@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>main</title>
+
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+
+    <p> test text </p>
+    <iframe id="ifid1" src="inside.html"></iframe>
+    <iframe id="ifid2" src="inside.html"></iframe>
+    <div id="divid"></div>
+
+
+
+
+  </body>
+  
+  <script>
+    d = document.getElementById("divid");
+    can = document.createElement("canvas");
+    can.style.width = d.scrollWidth+"px";
+    can.style.height = d.scrollHeight+"py";
+    can.width = d.scrollWidth;
+    can.height = d.scrollHeight;
+    d.appendChild(can);
+    
+    var if1 = document.getElementById("ifid1");
+    var rect1 = if1.getBoundingClientRect();
+    var if1top = rect1.top;
+    var if1left = rect1.left;
+    
+    var if2 = document.getElementById("ifid2");
+    var rect2 = if2.getBoundingClientRect();
+    var if2top = rect2.top;
+    var if2left = rect2.left;
+
+    var loaded = 0;
+
+    
+    if1.addEventListener("load", function() {
+        loaded++;
+        if(loaded === 2){
+        set_canvas();
+        }
+    });
+    if2.addEventListener("load", function() {
+        loaded++;
+        if(loaded === 2){
+        set_canvas();
+        }
+    });
+    
+    function set_canvas(){
+        var from_element = if1.contentWindow.document.getElementById('linkid2');
+        var to_element = if2.contentWindow.document.getElementById('linkid1');
+        
+        
+        var r1 = from_element.getBoundingClientRect();
+        var from_top = r1.top + if1top;
+        var from_left = r1.left + if1left;
+        
+        var r2 = to_element.getBoundingClientRect();
+        var to_top = r2.top + if2top;
+        var to_left = r2.left + if2left;
+        
+        var context = can.getContext('2d');
+        context.beginPath();
+        context.moveTo(from_left, from_top);
+        context.lineTo(to_left, to_top);
+        context.lineWidth = 3;
+        context.strokeStyle = 'blue';
+        context.stroke();
+    }
+    
+    
+    
+    
+    
+  
+  </script>
+</html>
+
+
+
+
+
+

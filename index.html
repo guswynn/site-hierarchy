@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <title>test</title>
+<style>
+#cont {
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+}
+/*
+iframe {
+    -webkit-transform: scale(.25);
+    width:1920px;
+    height:938px;
+}*/
+
+/*.dad {
+   width:500;
+   height:250;
+    top:-500;
+    left:-500;
+    margin-bottom:-500px;
+    margin-right:-500px;
+}*/
+
+
+
+</style>
+
+  </head>
+  <body>
+
+    <div id="cont">
+
+    </div>
+    <script>
+      var num_of_frames = 9;
+      var frame_orig_width = 1920;
+      var frame_orig_height = 938;
+      var scale_factor = 0.4;
+      var div = document.getElementById("cont");
+      var iframes = [];
+      for(i = 0; i < num_of_frames; i++){
+        var iframe = document.createElement("iframe");
+        var valh = frame_orig_height*(1-scale_factor)/2; 
+        var valw = frame_orig_width*(1-scale_factor)/2; 
+        var t = valh;
+        var left = valw;
+        var mb = t*2;
+        var mr = left*2;
+
+        iframe.style.width = frame_orig_width.toString() + "px";
+        iframe.style.height = frame_orig_height.toString() + "px";
+        iframe.style.position = "relative";
+
+        iframe.style["-webkit-transform"] = "scale(" + scale_factor.toString() + ")";
+        iframe.style.top = "-" + Math.round(t.toString()) + "px";
+        iframe.style.left = "-" + Math.round(left.toString()) + "px";
+        iframe.style["margin-bottom"] = "-" + Math.round(mb.toString()) + "px";
+        iframe.style["margin-right"] = "-" + Math.round(mr.toString()) + "px";
+        iframe.src = "test1.html";
+        var div2 = document.createElement("div");
+        div2.appendChild(iframe);
+        div.appendChild(div2);
+      }
+
+
+    </script>
+  </body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
