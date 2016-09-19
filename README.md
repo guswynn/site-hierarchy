@@ -1,5 +1,5 @@
 #site hierarchy
-Say you have a static site with links to sub-pages. This site has changed over time in a git repo called 'site'.
+Say you have a static site with links to sub-pages. This site has changed over time in a git repo called 'website' and outputs to a repo called 'hierarchy'.
 
 What if you want another static site that encapsulates the changing hierarchy of that site?
 

@@ -6,7 +6,7 @@ output_directory=$page_dir/coms
 file_base=iframe_test
 mkdir -p $output_directory
 
-repo_path=../site
+repo_path=../website
 
 cd $repo_path
 
