@@ -8,7 +8,7 @@ mkdir -p $output_directory
 
 repo_path=../website
 
-cd $repo_path
+pushd $repo_path
 
 for commit in $(git log --format="%H")
 do
@@ -21,7 +21,21 @@ do
   cp *.html $new_dir
   cp -r stylesheets/ $new_dir
   cp -r *imgs/ $new_dir
+
   #python gen_page.py $new_dir $date $commit $page_dir $file_base
 done
+
 git checkout master
-cd $p
+
+popd
+
+for d in $output_directory/*/; do cp HIER_BASE.html "$d"; done
+for d in $output_directory/*/; do cp HIER_BASE.css "$d"; done
+
+pushd $output_directory
+echo 'commits = [' > ../../site-hierarchy/commits.js
+
+ls | awk '{print "\""$0"\","}' >> ../../site-hierarchy/commits.js
+
+
+popd
