@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <title>test</title>
+    <link rel="stylesheet" href="style.css">
+<style>
+#cont {
+    display:flex;
+    flex-direction:row;
+}
+
+iframe {
+    width:1920px;
+    height:938px;
+}
+
+#pre {
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 5em;
+}
+
+</style>
+
+  </head>
+  <body>
+    <div id="cont">
+        <div id="pre">
+    
+            <form action="" id="home">
+
+            </form>
+    
+        </div>
+        <iframe src="index.html" id="main_frame"></iframe>
+    </div>
+        <script src="commits.js"></script>
+      <script>
+      
+        console.log("LOL");
+        var form = document.getElementById("home");
+        var iframe = document.getElementById("main_frame");
+    
+        for (var i = 0; i < commits.length; i++){
+            var radio = document.createElement("input");
+            radio.type = "radio"
+            radio.name = "dates"
+            radio.value = i.toString()
+            var here = i;
+            radio.addEventListener("change", function() {
+                console.log(this.value);
+                iframe.src = "../hierarchy/coms/" + commits[parseInt(this.value)] + "/HIER.html";
+           });
+           console.log(radio);
+           form.appendChild(radio);
+           form.appendChild(document.createTextNode(here.toString()));
+       }
+        
+  </script>
+  </body>
+  </html>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+

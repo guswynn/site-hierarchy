@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>test</title>
+    <link rel="stylesheet" href="style.css">
 <style>
 #cont {
     display:flex;
@@ -31,17 +32,41 @@ iframe {
   </head>
   <body>
 
-    <div id="cont">
+    <div id="cont"></div>
+    <div id="divid"></div>
 
-    </div>
     <script>
-      var num_of_frames = 9;
+    
+        d = document.getElementById("divid");
+        can = document.createElement("canvas");
+        can.style.width = d.scrollWidth+"px";
+        can.style.height = d.scrollHeight+"py";
+        can.width = d.scrollWidth;
+        can.height = d.scrollHeight;
+        d.appendChild(can);
+
       var frame_orig_width = 1920;
       var frame_orig_height = 938;
-      var scale_factor = 0.4;
+      var scale_factor = 0.2;
       var div = document.getElementById("cont");
+
       var iframes = [];
-      for(i = 0; i < num_of_frames; i++){
+      var srces = [];
+      var loaded = 0;
+      
+
+      var base_website = "../website/index.html";
+
+      function build_src(iframe){
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var links = innerDoc.body.getElementsByTagName("a");
+        for (var i = 0; i < links.length; i++){
+          srces.push(links[i].href);
+        }
+
+      }
+        
+      function build_iframe(src){
         var iframe = document.createElement("iframe");
         var valh = frame_orig_height*(1-scale_factor)/2; 
         var valw = frame_orig_width*(1-scale_factor)/2; 
@@ -59,11 +84,78 @@ iframe {
         iframe.style.left = "-" + Math.round(left.toString()) + "px";
         iframe.style["margin-bottom"] = "-" + Math.round(mb.toString()) + "px";
         iframe.style["margin-right"] = "-" + Math.round(mr.toString()) + "px";
-        iframe.src = "test1.html";
-        var div2 = document.createElement("div");
-        div2.appendChild(iframe);
-        div.appendChild(div2);
+
+        iframe.src = src;
+        return iframe;
       }
+
+      var base_iframe = build_iframe(base_website);
+      iframes.push(base_iframe);
+      var div2 = document.createElement("div");
+      div2.appendChild(base_iframe);
+      div.appendChild(div2);
+        
+      base_iframe.addEventListener("load", function() {
+        build_src(base_iframe);
+        console.log(srces.length);
+        for(var i = 0; i < srces.length; i++){
+
+          var iframe = build_iframe(srces[i]);
+          iframes.push(iframe);
+          
+          var div2 = document.createElement("div");
+          div2.appendChild(iframe);
+          
+          iframe.addEventListener("load", function() {
+            loaded++;
+            console.log(loaded);
+            if(loaded === srces.length){
+                set_canvas();
+            }
+            });
+
+          if (i < 5){
+            div.insertBefore(div2, div.firstChild);
+          } else {
+            div.appendChild(div2);
+          }
+        }
+      });
+      
+      
+      function set_canvas(){
+        console.log("YES");
+        var innerDoc = base_iframe.contentDocument ||
+                iframe.contentWindow.document;
+        var links = innerDoc.body.getElementsByTagName("a");
+        for (var i = 0; i < links.length; i++){
+            var from_element = links[i];
+            //from iframe 
+            var to_element = iframes[i+1];
+            var if1 = base_iframe
+            var rect1 = if1.getBoundingClientRect();
+            var if1top = rect1.top;
+            var if1left = rect1.left;
+            var r1 = from_element.getBoundingClientRect();
+            var from_top = r1.top*scale_factor + if1top;
+            var from_left = r1.left*scale_factor + if1left;
+            
+            var r2 = to_element.getBoundingClientRect();
+            var to_top = r2.top; //+ if2top;
+            var to_left = r2.left; //+ if2left;
+            
+            var context = can.getContext('2d');
+            context.beginPath();
+            context.moveTo(from_left, from_top);
+            context.lineTo(to_left, to_top);
+            context.lineWidth = 3;
+            context.strokeStyle = 'blue';
+            context.stroke();
+          
+          }
+          
+        }
+        
 
 
     </script>
