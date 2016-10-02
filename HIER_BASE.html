@@ -93,11 +93,12 @@ iframe {
       iframes.push(base_iframe);
       var div2 = document.createElement("div");
       div2.appendChild(base_iframe);
+      div2.addEventListener("click", function() {
+      }, false);
       div.appendChild(div2);
         
       base_iframe.addEventListener("load", function() {
         build_src(base_iframe);
-        console.log(srces.length);
         for(var i = 0; i < srces.length; i++){
 
           var iframe = build_iframe(srces[i]);
@@ -108,9 +109,10 @@ iframe {
           
           iframe.addEventListener("load", function() {
             loaded++;
-            console.log(loaded);
+            click_handlers(this);
             if(loaded === srces.length){
                 set_canvas();
+                click_handlers(base_iframe);
             }
             });
 
@@ -122,11 +124,42 @@ iframe {
         }
       });
       
-      
+    function click_handlers(iframe){
+        var innerBody = iframe.contentDocument ||
+                iframe.contentWindow.document
+        innerBody.onclick = function (e) {
+            if (iframe.isBig === "yes") {
+                e.stopPropagation();
+                e.preventDefault();
+                iframe.isBig = "no";
+                iframe.style["-webkit-transform"] = "scale(" + scale_factor.toString() + ")";
+                iframe.style["z-index"] = "0";
+                iframe.style.position = "relative";
+                iframe.style.top = iframe.old_top;
+                iframe.style.left = iframe.old_left;
+            } else {
+                e.stopPropagation();
+                e.preventDefault();
+                console.log(e);
+                console.log("ahwat");
+                iframe.isBig = "yes"
+                iframe.style["-webkit-transform"] = "scale(1)";
+                iframe.style["z-index"] = "1000";
+                iframe.style["background-color"] = "white";
+                iframe.style.position = "fixed";
+                iframe.old_top = iframe.style.top;
+                iframe.old_left = iframe.style.left;
+                iframe.style.top = "0";
+                iframe.style.left = "0";
+            }
+            
+        };
+       }
+                
+                   
       function set_canvas(){
-        console.log("YES");
         var innerDoc = base_iframe.contentDocument ||
-                iframe.contentWindow.document;
+                base_iframe.contentWindow.document;
         var links = innerDoc.body.getElementsByTagName("a");
             var context = can.getContext('2d');
 

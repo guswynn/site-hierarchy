@@ -17,7 +17,12 @@ iframe {
 #pre {
     flex-grow: 0;
     flex-shrink: 1;
-    flex-basis: 5em;
+    flex-basis: 15em;
+}
+/*form { display:flex; }*/
+label {
+
+    display:block;
 }
 
 </style>
@@ -37,24 +42,27 @@ iframe {
         <script src="commits.js"></script>
       <script>
       
-        console.log("LOL");
         var form = document.getElementById("home");
         var iframe = document.getElementById("main_frame");
         var radios = [];
     
         for (var i = 0; i < commits.length; i++){
             var radio = document.createElement("input");
+            var label = document.createElement("label");
             radio.type = "radio"
             radio.name = "dates"
-            radio.value = i.toString()
+            date = new Date();
+            date.setTime(parseInt(commits[i])*1000);
+            radio.value = date.toLocaleDateString() + " " + date.toLocaleTimeString()
+            console.log(date.getTimezoneOffset());
+            radio.num = i.toString();
             var here = i;
             radio.addEventListener("change", function() {
-                console.log(this.value);
-                iframe.src = "../hierarchy/coms/" + commits[parseInt(this.value)] + "/HIER_BASE.html";
+                iframe.src = "../hierarchy/coms/" + commits[parseInt(this.num)] + "/HIER_BASE.html";
            });
-           console.log(radio);
-           form.appendChild(radio);
-           form.appendChild(document.createTextNode(here.toString()));
+            label.appendChild(radio);
+           form.appendChild(label);
+           label.appendChild(document.createTextNode(radio.value));
            radios.push(radio);
        }
 
