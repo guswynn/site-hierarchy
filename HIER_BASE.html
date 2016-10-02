@@ -164,6 +164,22 @@ iframe {
             var context = can.getContext('2d');
 
             context.clearRect(0, 0, can.width, can.height);
+            
+        var colorNames = ["AliceBlue","Aquamarine","Black","BlueViolet",
+        "Brown","CornflowerBlue","Crimson",
+        "DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen",
+        "DarkMagenta","DarkOliveGreen","Darkorange",
+        "DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen",
+        "DarkSlateBlue","DarkSlateGray","DarkSlateGrey",
+        "DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue",
+        "DimGray","Gray","Grey","Green","IndianRed","Indigo","Magenta",
+        "Maroon","MistyRose","Moccasin","Navy",
+        "OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid",
+        "Pink","Plum","PowderBlue","Purple",
+        "RosyBrown","RoyalBlue","Salmon",
+        "SeaGreen","Sienna","SlateGray","SlateGrey","Snow","SpringGreen",
+        "SteelBlue","Tomato","Turquoise","Violet","YellowGreen"];
+
         for (var i = 0; i < links.length; i++){
             var from_element = links[i];
             //from iframe 
@@ -173,8 +189,13 @@ iframe {
             var if1top = rect1.top;
             var if1left = rect1.left;
             var r1 = from_element.getBoundingClientRect();
-            var from_top = r1.top*scale_factor + if1top;
-            var from_left = r1.left*scale_factor + if1left;
+            if (from_element.parentElement.className == "blogr") {
+                 var from_top = r1.top*scale_factor + if1top;
+                var from_left = r1.right*scale_factor + if1left
+            } else {
+                var from_top = r1.top*scale_factor + if1top;
+                var from_left = r1.left*scale_factor + if1left;
+            }
             
             var r2 = to_element.getBoundingClientRect();
             var to_top = r2.top; //+ if2top;
@@ -185,7 +206,7 @@ iframe {
             context.moveTo(from_left, from_top);
             context.lineTo(to_left, to_top);
             context.lineWidth = 3;
-            context.strokeStyle = 'blue';
+            context.strokeStyle = colorNames[Math.round(Math.random()*colorNames.length)]
             context.stroke();
           
           }
