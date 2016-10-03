@@ -53,6 +53,7 @@ iframe {
       var iframes = [];
       var srces = [];
       var loaded = 0;
+      var loaded_2 = 0;
       
 
       var base_website = "index.html";
@@ -111,17 +112,29 @@ iframe {
             loaded++;
             click_handlers(this);
             if(loaded === srces.length){
-                set_canvas();
+                //set_canvas();
                 click_handlers(base_iframe);
             }
             });
-
           if (i < 5){
             div.insertBefore(div2, div.firstChild);
           } else {
             div.appendChild(div2);
           }
+                    iframe.contentWindow.addEventListener
+          ("DOMContentLoaded",        
+          function() {
+                        loaded_2++;
+            //click_handlers(this);
+            if(loaded_2 === srces.length){
+                set_canvas();
+                //click_handlers(base_iframe);
+            }
+            });
         }
+      });
+      base_iframe.contentWindow.addEventListener("DOMContentLoaded", function() {
+      console.log("Y:LKASDLKASD");
       });
       
     function click_handlers(iframe){
