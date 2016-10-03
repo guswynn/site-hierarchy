@@ -4,6 +4,7 @@ pages:
   - mkdir .public
   - cp *.css .public
   - cp *.html .public
+  - cp *.js .public
 
   - mv .public public
   artifacts:
