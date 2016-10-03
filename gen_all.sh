@@ -7,10 +7,13 @@ file_base=iframe_test
 mkdir -p $output_directory
 
 repo_path=../website
+rm -r ../hierarchy/*
 
 pushd $repo_path > /dev/null
 
-for commit in $(git log --format="%H")
+mkdir -p $page_dir/img_folders
+current=img_folders/a
+for commit in $(git log --reverse --format="%H")
 do
   #echo $commit
   date="$(git show -s --format=%ct $commit)"
@@ -20,7 +23,25 @@ do
   mkdir -p $new_dir
   cp *.html $new_dir
   cp -r stylesheets/ $new_dir
-  cp -r *imgs/ $new_dir 2> /dev/null
+
+
+  for d in *imgs/; do
+    if [ -d $d ] 
+    then
+      echo "GOOD"
+      diff $page_dir/$current/$d $d
+      if [ $? -eq 0 ]
+      then
+        ln -s ../../$current/$d $new_dir
+      else
+        current="$current"a
+        mkdir -p $page_dir/$current
+        cp -r $d $page_dir/$current/$d
+        ln -s ../../$current/$d $new_dir
+      fi
+    fi
+ done
+
 
   #python gen_page.py $new_dir $date $commit $page_dir $file_base
 done
