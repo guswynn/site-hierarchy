@@ -1,0 +1,14 @@
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r alley_imgs .public
+  - cp -r stylesheets .public
+  - cp *.html .public
+
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
