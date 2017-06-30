@@ -1,13 +1,13 @@
 #!/bin/bash
 
 p=$(pwd)
-page_dir=../hierarchy
+page_dir=../hier
 output_directory=$page_dir/coms
 file_base=iframe_test
 mkdir -p $output_directory
 
 repo_path=../885
-rm -r ../hierarchy/*
+rm -r ../hier/*
 
 pushd $repo_path > /dev/null
 
@@ -58,16 +58,4 @@ echo 'commits = [' > ../../site-hier/commits.js
 
 ls | awk '{print "\""$0"\","}'  | head -c -2 >> ../../site-hier/commits.js
 echo ']' >> ../../site-hier/commits.js
-
-popd > /dev/null
-
-pushd ../hierarchy
-git add .
-git commit -m "new history"
-git push publish
-popd > /dev/null
-
-git add .
-git commit -m "new generation"
-git push publish
 
