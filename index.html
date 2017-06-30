@@ -58,7 +58,7 @@ label {
             radio.num = i.toString();
             var here = i;
             radio.addEventListener("change", function() {
-                iframe.src = "http://hierarchy.eighteightfive.io/" + commits[parseInt(this.num)] + "/HIER_BASE.html";
+                iframe.src = "http://hierarchy.eighteightfive.io/coms/" + commits[parseInt(this.num)] + "/HIER_BASE.html";
            });
             label.appendChild(radio);
            form.appendChild(label);
